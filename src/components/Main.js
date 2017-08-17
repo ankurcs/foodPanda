@@ -4,15 +4,14 @@ Author	 : Ankur Gupta
 Last Updated : 17 Aug 2017
 */
 import React, {Component} from 'react';
-import {
-	Router, 
-	Scene 
-} from 'react-native-router-flux';
-
 import Login from './Login';	
 import Menu from './Menu';
 import Detail from './Detail';
- export default class Main extends React.Component {
+
+import { connect } from 'react-redux/src';
+import {Router, Route, Schema, Scene, Reducer, Actions } from 'react-native-router-flux';
+
+ export class Main extends React.Component {
 	constructor (props) {
 	    super(props);
 	}
@@ -29,3 +28,9 @@ import Detail from './Detail';
 		)
 	}
 }
+
+function mapStateToProps (state) {
+	const { app } = state;
+	return { app };
+}
+export default connect(mapStateToProps)(Main);

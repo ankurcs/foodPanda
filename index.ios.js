@@ -10,14 +10,20 @@ import {
   Text,
   View
 } from 'react-native';
+import { Provider } from 'react-redux';
 import Main from './src/components/Main';
+import configStore from './src/store/configureStore';
+const store = configStore();
+var RCTLog = require('RCTLog'); 
 
 export default class foodPanda extends Component {
-  render() {
-    return (
-      <Main/>
-    )
-  }
+	render(){
+		return (
+			<Provider store={store}>
+		        {<Main />}
+		    </Provider>
+		)
+	}
 }
 
 AppRegistry.registerComponent('foodPanda', () => foodPanda);

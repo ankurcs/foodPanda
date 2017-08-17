@@ -1,3 +1,8 @@
+export const HANDLE_INITIAL_APP_ACTION = 'HANDLE_INITIAL_APP_ACTION';
+export const INIT_APP_WITHOUT_LOGIN    = 'INIT_APP_WITHOUT_LOGIN';
+export const INIT_APP_AFTER_LOGIN      = 'INIT_APP_AFTER_LOGIN';
+export const HANDLE_LOADING_STAGE      = 'HANDLE_LOADING_STAGE';
+
 import firebase from 'firebase';
 
 export function connectFirebase (data,callback=function(){}) {
