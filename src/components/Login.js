@@ -1,9 +1,13 @@
+/*
+ * FileName : Login.js
+ * Author	: Ankur Gupta
+ * Last Updated: 17 Aug 2017
+ */
 import React, {Component} from 'react';
 import {
 	View,
 	Text,
 	Dimensions,
-	Platform,
 	TextInput,
 	Image,
 	TouchableOpacity,
@@ -13,8 +17,10 @@ import {
 import {
     Actions 
 } from 'react-native-router-flux';
-import styles from './style';
+import styles from '../css/style';
 import firebase from 'firebase';
+import {connectFirebase, validateMail} from '../reducers/Action';
+
 export default class Login extends Component {
 	constructor (props) {
 	    super(props);
@@ -24,14 +30,9 @@ export default class Login extends Component {
 	    this.email = '';
 	    this.password = '';
 	}
-
-	validateMail (email) {
-	  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-	  return re.test(email);
-	}
-
-	 signIn() {
-	    let email = this.email;
+	
+	signIn() {
+		let email = this.email;
 	    let password = this.password;
 	    let emailPass = {
 	        email: email,
@@ -46,7 +47,7 @@ export default class Login extends Component {
 	    	count++;
 	        alert('Email and Password are required');
 	        
-	    } else if (!this.validateMail(email)) {
+	    } else if (!validateMail(email)) {
 	        count++;
 	        alert('Invalid Email!');
 	    }
@@ -54,7 +55,7 @@ export default class Login extends Component {
 	       // alert('User Authentication Failed!');
 	    } else {
 	        this.setState({loader: true});
-	        this.connectFirebase(emailPass, function(res) {
+	        connectFirebase(emailPass, function(res) {
 	            if (res == 1) {
 	               	Actions.menu();
 	            } else {
@@ -64,28 +65,10 @@ export default class Login extends Component {
 	        }.bind(this));
 	    }
 	}
-
-	connectFirebase (data,callback=function(){}) {
-		let email 	 = data.email;
-		let password = data.password;
-		let ref  	 = new firebase("https://armentum-cfca3.firebaseio.com/users/");
-		ref.on("value", function(snapshot) {
-			let listObj = snapshot.val();
-			for ( let i in listObj ) {
-				if ( listObj[i]['email'] === email && listObj[i]['password'] === password ) {
-					callback (1);
-					return;
-				}
-			}
-			callback (0);
-		}, function (error) {
-		   callback(0);
-		});
-	}
    
-  render () {
-	let color= "#fff";
-    return (
+	render () {
+		let color= "#fff";
+	    return (
     		<View style={[styles.loginTab,{backgroundColor:'#fefefe'}]}>
 		    	<ScrollView pointerEvents={this.state.loader ? 'none' : 'auto'} ref="scrollView">
 			    	<View style={[styles.center, styles.loginCenter]}>
@@ -137,6 +120,6 @@ export default class Login extends Component {
 				    </View>
 				</ScrollView>
 			</View>
-    );
-  }
+	   );
+	}
 }

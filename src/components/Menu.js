@@ -1,3 +1,8 @@
+/*
+FileName : Menu.js
+Author   : Ankur Gupta
+Last Updated : 17 Aug 2017
+*/
 import React, {Component} from 'react';
 import {
 	View,
@@ -6,7 +11,7 @@ import {
     ScrollView,
     TouchableOpacity
 } from 'react-native';
-import styles from './style'
+import styles from '../css/style'
 import {
     Actions 
 } from 'react-native-router-flux';
@@ -17,12 +22,12 @@ export default class Menu extends Component {
     onClickimage (a) {
         Actions.detail({ data : a });
     }
-    renderMeu() {
+    renderMenu() {
         let s = [];
         let imgArr = [
-            { src:require('./Images/imgmenu1.png'), name: '1st item name'},
-            { src:require('./Images/imgmenu2.png'), name: '2nd item name'},
-            { src:require('./Images/imgmenu3.png'), name: '3rd item name'}
+            { src:require('../assets/Images/imgmenu1.png'), name: '1st item name'},
+            { src:require('../assets/Images/imgmenu2.png'), name: '2nd item name'},
+            { src:require('../assets/Images/imgmenu3.png'), name: '3rd item name'}
         ];
         s.push(<TouchableOpacity 
                     style = {[styles.cardShadow, styles.pbSm]}
@@ -30,7 +35,7 @@ export default class Menu extends Component {
                     key = { 1 }
                 >
                     <Image 
-                        source = { require('./Images/imgmenu1.png') } 
+                        source = { require('../assets/Images/imgmenu1.png') } 
                         style = {[styles.imgItem]}
                     />
                     <Text 
@@ -46,7 +51,7 @@ export default class Menu extends Component {
                     key = { 2 }
                 >
                     <Image 
-                        source = { require('./Images/imgmenu2.png') } 
+                        source = { require('../assets/Images/imgmenu2.png') } 
                         style = {[styles.imgItem]}
                     />
                     <Text 
@@ -62,7 +67,7 @@ export default class Menu extends Component {
                     key = { 3 }
                 >
                     <Image 
-                        source = { require('./Images/imgmenu3.png') } 
+                        source = { require('../assets/Images/imgmenu3.png') } 
                         style = {[styles.imgItem]}
                     />
                     <Text 
@@ -77,8 +82,11 @@ export default class Menu extends Component {
 	render () {
 		return (
             <View>
+		        <View style={[styles.center, {height: 70}]}>
+		            <Text>{this.props.title}</Text>
+		        </View>
                 <ScrollView>
-                    {this.renderMeu()}
+                    <View style={[styles.center]}>{this.renderMenu()}</View>
                 </ScrollView>
             </View>
 		);

@@ -1,3 +1,8 @@
+/*
+FileName : Main.js(Contain All Component for App)
+Author	 : Ankur Gupta
+Last Updated : 17 Aug 2017
+*/
 import React, {Component} from 'react';
 import {
 	Router, 
@@ -17,7 +22,7 @@ import Detail from './Detail';
 			<Router>
 			    <Scene key="root"  hideTabBar={false} renderBackButton={'Closure'}>
 			    	<Scene key="login" component={Login} title="Sign In" initial={true} />
-			    	<Scene key="menu" component={Menu} title="Menu" />
+			    	<Scene key="menu" component={Menu} title="Menu" hideNavBar = {true} />
 			    	<Scene key="detail" component={Detail} title="Detail"/>
 			    </Scene>
 			</Router>

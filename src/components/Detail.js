@@ -1,5 +1,10 @@
+/*
+FileName : Detail.js
+Author   : Ankur Gupta
+Last Updated : 17 Aug 2017
+*/
 import React, {Component} from 'react';
-import styles from './style'
+import styles from '../css/style'
 import {
 	View,
     Text,
