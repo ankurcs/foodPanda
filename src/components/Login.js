@@ -1,87 +1,100 @@
-/*
- * FileName : Login.js
- * Author	: Ankur Gupta
- * Last Updated: 17 Aug 2017
- */
 import React, {Component} from 'react';
 import {
 	View,
 	Text,
-	Dimensions,
 	TextInput,
 	Image,
 	TouchableOpacity,
 	ScrollView,
+	Alert,
+	Platform,
 	ActivityIndicator,
+	Dimensions,
+	AsyncStorage
 } from 'react-native';
+import styles from '../css/style';
 import {
     Actions 
 } from 'react-native-router-flux';
-import styles from '../css/style';
-import firebase from 'firebase';
-import {connectFirebase, validateMail} from '../reducers/Action';
+
+var Utility         = require('../Reducers/Utility');
+var Modal   	= require('./Modal');
+var msgData 	= "";
+import {handleLogin} from '../Reducers/AppAction';
 
 export default class Login extends Component {
 	constructor (props) {
 	    super(props);
 	    this.state = {
-	    	loader			: false,
+	    	isLoading			: false,
+	        emailAutoFocus		: true,
+	        passwordAutoFocus	: false,
+	   		msgModel			: false
 	    };
 	    this.email = '';
 	    this.password = '';
 	}
 	
-	signIn() {
-		let email = this.email;
+	checkLogin() {
+	    let email = this.email;
 	    let password = this.password;
-	    let emailPass = {
+	    let data = {
 	        email: email,
 	        password: password
 	    };
-	    let count = 0;
+	    let errorMsg = '';
 	    if (typeof email == 'undefined' || email == '') {
-	    	count++;
-	        alert('Email and Password are required');
-	        
+	        errorMsg = 'Email and Password are required';
+	        this.setState({
+	            emailAutoFocus: true
+	        });
 	    } else if (typeof password == 'undefined' || password == '') {
-	    	count++;
-	        alert('Email and Password are required');
-	        
-	    } else if (!validateMail(email)) {
-	        count++;
-	        alert('Invalid Email!');
+	        errorMsg = 'Email and Password are required';
+	        this.setState({
+	            passwordAutoFocus: true
+	        });
 	    }
-	    if (count > 0) {
-	       // alert('User Authentication Failed!');
+	    if (errorMsg) {
+	        //alert(errorMsg);
+	        msgData = errorMsg;
+	        this.setState({
+	            msgModel: true
+	        });
 	    } else {
-	        this.setState({loader: true});
-	        connectFirebase(emailPass, function(res) {
+	        this.setState({
+	            isLoading: true
+	        });
+	        handleLogin(data, function(res) {
 	            if (res == 1) {
-	               	Actions.menu();
+	            	AsyncStorage.setItem("STORAGE_KEY_IS_LOGGED_IN", '1');
+	                Actions.items();
 	            } else {
 	                alert("User Not Registered!");
 	            }
-	            this.setState({loader: false});
+	            this.setState({
+	                isLoading: false
+	            });
 	        }.bind(this));
 	    }
 	}
    
-	render () {
-		let color= "#fff";
-	    return (
+  render () {
+	let color= "#fff";
+    return (
     		<View style={[styles.loginTab,{backgroundColor:'#fefefe'}]}>
-		    	<ScrollView pointerEvents={this.state.loader ? 'none' : 'auto'} ref="scrollView">
-			    	<View style={[styles.center, styles.loginCenter]}>
-						<Text style={[styles.heading2,styles.textBlack]}>Food Panda</Text>
+		    	<ScrollView pointerEvents={this.state.isLoading ? 'none' : 'auto'} ref="scrollView">
+			    	<View style={[(Platform.OS === 'ios') ? styles.center : null, styles.loginCenter]}>
+						<Text style={[styles.heading2,styles.textBlack]}>Xebia</Text>
 						<View style={[styles.mtLg, styles.mbMd,]}>
 							<TextInput 
-								style={[styles.width60, 
+								style={[(Platform.OS === 'ios') ? styles.width60 : null, 
 										styles.textLeft, 
 										styles.textInput, 
 										styles.pl, 
 										styles.headingFont
 									]}
-								placeholder="Username or Email" 
+								ref="email"
+								placeholder="Email address" 
 								autoCapitalize="none" 
 								autoCorrect={false} 
 								keyboardType={'email-address'}
@@ -90,7 +103,8 @@ export default class Login extends Component {
 						</View>
 						<View>
 							<TextInput 
-								style={[styles.width60,
+								ref="password"
+								style={[(Platform.OS === 'ios') ? styles.width60 : null, 
 										styles.textLeft, 
 										styles.pl, 
 										styles.textInput, 
@@ -99,27 +113,58 @@ export default class Login extends Component {
 								placeholder="Password"
 								onChangeText={password => this.password= password}
 								secureTextEntry={true}
-								onSubmitEditing={()=>this.signIn()}
+								autoFocus={this.state.passwordAutoFocus}
+								onSubmitEditing={()=>this.checkLogin()}
 							/>
 						</View>
 						<TouchableOpacity 
-								style={[styles.btnFullScreen,styles.width60,
+								style={[styles.btnFullScreen,(Platform.OS === 'ios') ? styles.width60 : null, 
+										styles.btnPrimary,
 										styles.logButton,
 										styles.rSm, 
 										styles.mtMd,
-										styles.middle,
-										{backgroundColor:'#bbb',borderWidth:0}
+										styles.middle
 										]} 
-								onPress={()=>this.signIn()}
+								onPress={()=>this.checkLogin()}
 						>
 				    		<Text style={[styles.textCenter,
-				    		              styles.textBlack, 
+				    		              styles.textWhite, 
 				    		              styles.middleFont]}
-				    		>{(this.state.loader) ? 'Please wait...' : 'Log in'}</Text>
+				    		>{(this.state.isLoading) ? 'Please wait...' : 'Log in'}</Text>
+				    		{(this.state.isLoading) 
+				    			? 
+				    				<View style={[styles.pullRight,
+				    				              styles.center,
+				    				              {top:0,bottom:0,right:8}
+				    							]}
+				    				>
+				    					<ActivityIndicator 
+				    						animating={this.state.isLoading} 
+				    						color={color} 
+				    						size="small" 
+				    					/>
+				    			   </View> 
+				    			:
+				    				null
+		    			   	}
 				    	</TouchableOpacity>
 				    </View>
 				</ScrollView>
+				<Modal isOpen={this.state.msgModel} 
+				 		style={[styles.center,styles.msgModel]} 
+				 		position={"bottom"} onClosed={()=>this.setState({msgModel : false})}
+				>
+					<View style={[styles.fullWidth,styles.center]}>
+						<Text style={[styles.textBlack,styles.mlMd,styles.mrMd]}>{msgData}</Text>
+						<TouchableOpacity 
+							onPress={()=>this.setState({msgModel : false})} 
+							style={[styles.modalSmallButton, styles.btnPrimary, styles.center, {marginTop:5}]}
+						>
+							<Text style={[styles.btnText,styles.btnTextModal]}> OK </Text>
+						</TouchableOpacity>
+					</View>
+		        </Modal>
 			</View>
-	   );
-	}
+    );
+  }
 }

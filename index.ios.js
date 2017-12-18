@@ -1,8 +1,9 @@
-/*
- * FileName : index.ios.js
- * Author	: Ankur Gupta
- * Last Updated: 17 Aug 2017
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
  */
+
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -10,20 +11,15 @@ import {
   Text,
   View
 } from 'react-native';
-import { Provider } from 'react-redux';
-import Main from './src/components/Main';
-import configStore from './src/store/configureStore';
-const store = configStore();
-var RCTLog = require('RCTLog'); 
+import App from './src/containers/App';
 
-export default class foodPanda extends Component {
-	render(){
-		return (
-			<Provider store={store}>
-		        {<Main />}
-		    </Provider>
-		)
-	}
+export default class testingProj extends Component {
+  render() {
+    return (
+      <App/>
+    )
+  }
 }
 
-AppRegistry.registerComponent('foodPanda', () => foodPanda);
+
+AppRegistry.registerComponent('testingProj', () => testingProj);

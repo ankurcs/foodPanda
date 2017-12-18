@@ -1,5 +1,5 @@
 {
-  "name": "foodPanda",
+  "name": "testingProj",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,11 +9,7 @@
   "dependencies": {
     "react": "16.0.0-alpha.12",
     "react-native": "0.47.1",
-    "react-native-router-flux": "^4.0.0-beta.17",
-    "firebase": "^2.4.2",
-    "react-redux": "^4.4.1",
-    "redux": "^3.3.1",
-    "redux-thunk": "^1.0.3"
+    "react-native-router-flux": "^4.0.0-beta.17"
   },
   "devDependencies": {
     "babel-jest": "20.0.3",

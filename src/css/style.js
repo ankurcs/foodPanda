@@ -1,8 +1,15 @@
+/**
+ * File Name       : style.js
+ * Author          : Ankur Gupta
+ * Description     : Styling of application
+ * Version         : 1.0
+ **/
 import { 
     StyleSheet, 
     Dimensions
 } from 'react-native';
 var {height, width} = Dimensions.get('window');
+import Style from './DynamicDimension';
 module.exports = StyleSheet.create({
 	loginTab:{
         borderTopColor:'#34485E',
@@ -19,43 +26,6 @@ module.exports = StyleSheet.create({
     textLeft: {
         textAlign: 'left'
     },
-    plSm: {
-        paddingLeft: 10
-    },
-    pbSm: {
-        paddingBottom: 10
-    },
-    mSm: {
-        margin: 10
-    },
-    itemWidth: {
-        width : (width-30)/3,
-    },
-    cardShadow: {
-        width: (300) / 3,
-        shadowColor: '#888',
-        borderWidth: 1,
-        borderColor: '#eee',
-        shadowOpacity: 0,
-        shadowRadius: 1,
-        shadowOffset: {
-        height: 0.5,
-        width: 0.5,},
-        backgroundColor:'transparent',
-    },
-    link : {color: '#b0281a',},
-    pullRight: {
-        position: 'absolute',
-        right: 0,
-    },
-    center: {
-        alignItems          : 'center',
-        justifyContent      : 'center'
-    },
-    fullImage: {
-        height: height * 0.4,
-        width: width - 20,
-    },
     textInput: {
         height                  : width/8.5,
         backgroundColor         : '#ffffff',
@@ -67,17 +37,6 @@ module.exports = StyleSheet.create({
     pl           : { paddingLeft     : 5             },
     headingFont: {fontSize: width/25},
     width60       : { width : width-60},
-    btnPrimary: {
-        backgroundColor : '#1ab394',
-        borderWidth     : 1,
-        borderColor     : '#18a689',
-        shadowColor: '#18a689',
-        shadowOpacity: 0.8,
-        shadowRadius: 1,
-        shadowOffset: {
-        height: 0.9,
-        width: 0.9,}    
-    },
     logButton:{
         borderWidth     : 1,        
         borderColor     : '#34485E',        
@@ -85,6 +44,9 @@ module.exports = StyleSheet.create({
         shadowColor: '#3f5873',
         paddingTop : 10,
         paddingBottom : 10
+    },
+    bg12: {
+        backgroundColor: '#1ab394'
     },
     rSm: {borderRadius:3},
     mtMd: {marginTop:10},
@@ -94,15 +56,14 @@ module.exports = StyleSheet.create({
     textCenter : {textAlign: 'center'},
     textWhite    : { color           : '#ffffff'     },
     middleFont: {fontSize: width/22},
-    pullRight: {
-        position: 'absolute',
-        right: 0,
-    },
     msgModel:{
         height:width/2.8,
     },
     fullWidth: {
         width: width
+    },
+    fullHeight: {
+        height: height
     },
     mlMd: {marginLeft:10},
     mrMd: {marginRight:10},
@@ -130,26 +91,31 @@ module.exports = StyleSheet.create({
         fontWeight:'500',
         padding: 2
     },
-    btnTextModal:{fontSize: 13,},
     rowStyle: {
         flexDirection: 'row'
     },
-    styleFlex: {
-        flex: 1,
+    headingFont: {fontSize: Style.em(1.035)},
+    center: {
+        alignItems          : 'center',
+        justifyContent      : 'center'
     },
-    body: {
-        height: height - 70,
-        width: width - 20
+    searchContainer: {      
+        justifyContent          : 'center',
+        position            : 'absolute',
+        top                 : 0,
+        left                : 0,
+        right               : 0,
+        borderTopWidth      : 20,
+        minHeight           : 67,
+        backgroundColor     : '#fff',
+        borderBottomWidth   : 2,
+        borderTopColor      : '#34485E',
+        borderBottomColor   : '#3f5873',
+        shadowColor         : '#5a6d7d',
+        shadowOpacity       : 1,
+        shadowRadius        : 4,
+        shadowOffset        : { height  : 3, width  : 3 },
+        paddingLeft: 10,  
+        overflow            : 'hidden',
     },
-    bodyWidth: {
-        width: width - 20
-    },
-    imgItem: {
-        height: 50,
-        width: (width - 20) / 3,
-    },
-    prSm: {
-        paddingRight: 10
-    },
-    
 });
